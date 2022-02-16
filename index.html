@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    #container {
+      display: flex;
+      height: 400px;
+    }
+    #input-section,
+    #output-section {
+      flex: 1;
+      margin: 5%;
+    }
+
+    #output-section {
+      flex: 1;
+      margin: 5%;
+    }
+    div {
+      border: solid black 1px;
+      height: 300px;
+    }
+    #input-text {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <body>
+    <div id="container">
+      <div id="input-section">
+
+
+
+        <select id="languagetotranslate" onchange="translatetext()" >
+          <option value="en">English</option>
+          <option value="ar">Arabic</option>
+          <option value="az">Azerbaijani</option>
+          <option value="zh">Chinese</option>
+          <option value="cs">Czech</option>
+          <option value="nl">Dutch</option>
+          <option value="fi">Finnish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="hi">Hindi</option>
+          <option value="hu">Hungarian</option>
+          <option value="id">Indonesian</option>
+          <option value="ga">Irish</option>
+          <option value="it">Italian</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
+          <option value="pl">Polish</option>
+          <option value="pt">Portuguese</option>
+          <option value="ru">Russian</option>
+          <option value="es">Spanish</option>
+          <option value="sv">Swedish</option>
+          <option value="tr">Turkish</option>
+          <option value="uk">Ukranian</option>
+          <option value="vi">Vietnamese</option>
+          <!---->
+        </select>
+        <!--Create button that will run translate text function, give id "translate-btn"-->
+        <button onclick="translatetext()" id="translate-btn">Translate</button>
+        <!--Create input that will accept text to be translated, give id "input-text"-->
+        <textarea id="input-text"></textarea>
+      </div>
+      <div id="output-section">
+        <select id="languagestranslated" onchange="translatetext()" >
+          <option value="en">English</option>
+          <option value="ar">Arabic</option>
+          <option value="az">Azerbaijani</option>
+          <option value="zh">Chinese</option>
+          <option value="cs">Czech</option>
+          <option value="nl">Dutch</option>
+          <option value="fi">Finnish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="hi">Hindi</option>
+          <option value="hu">Hungarian</option>
+          <option value="id">Indonesian</option>
+          <option value="ga">Irish</option>
+          <option value="it">Italian</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
+          <option value="pl">Polish</option>
+          <option value="pt">Portuguese</option>
+          <option value="ru">Russian</option>
+          <option value="es">Spanish</option>
+          <option value="sv">Swedish</option>
+          <option value="tr">Turkish</option>
+          <option value="uk">Ukranian</option>
+          <option value="vi">Vietnamese</option>
+          <!---->
+        </select>
+        <p id="translated-text">
+          <!--Show translated text here-->
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  // let annad=JSON.stringify({
+  //   name:"amit",
+  //   age:23
+  // })
+  // console.log(annad)
+  async function translatetext() {
+    try {
+      let input = document.getElementById("input-text").value;
+
+      let inputtrans=document.getElementById("languagetotranslate").value
+
+      let outtrans=document.getElementById("languagestranslated").value
+
+      let res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
+        //sending data is called post request
+
+        body: JSON.stringify({
+          q: input,
+          source: inputtrans,
+          target: outtrans,
+          format: "text",
+        }),
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      let data = await res.json();
+
+      document.getElementById("translated-text").innerText =
+        data.translatedText;
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+</script>
